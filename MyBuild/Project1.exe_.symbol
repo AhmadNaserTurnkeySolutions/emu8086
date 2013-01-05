@@ -1,0 +1,31 @@
+< THE SYMBOL TABLE >  Project1.exe_  --  emu8086 assembler version: 4.08 
+===================================================================================================
+Name                     	Offset    	Size      	Type      	Segment   
+===================================================================================================
+STACK                    	00000     	-5        	SEGMENT   	(ITSELF)  
+DATA                     	00010     	-5        	SEGMENT   	(ITSELF)  
+WELCOME                  	00000     	1         	VAR       	data      
+LINE                     	00025     	1         	VAR       	data      
+MESSAGE1                 	0004D     	1         	VAR       	data      
+MESSAGE2                 	00088     	1         	VAR       	data      
+RESULT1                  	000C5     	1         	VAR       	data      
+RESULT2                  	000D3     	1         	VAR       	data      
+NUM1                     	000E5     	2         	VAR       	data      
+NUM2                     	000E7     	2         	VAR       	data      
+CODE                     	0001F     	-5        	SEGMENT   	(ITSELF)  
+START                    	00000     	-1        	LABEL     	code      
+GETN                     	00066     	-1        	LABEL     	code      
+NEWLINE                  	0007F     	-1        	LABEL     	code      
+READ_LOOP                	0008B     	-1        	LABEL     	code      
+FIN_READ                 	000A1     	-1        	LABEL     	code      
+FIN_GETN                 	000AB     	-1        	LABEL     	code      
+PUTN                     	000AF     	-1        	LABEL     	code      
+CALC_DIGITS              	000C7     	-1        	LABEL     	code      
+DISP_LOOP                	000D5     	-1        	LABEL     	code      
+END_DISP_LOOP            	000E0     	-1        	LABEL     	code      
+PUTC                     	000E4     	-1        	LABEL     	code      
+GETC                     	000F3     	-1        	LABEL     	code      
+===================================================================================================
+[ 05/01/2013  --  5:16:03 PM ] 
+< END >
+ 

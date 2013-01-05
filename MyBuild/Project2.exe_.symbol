@@ -1,0 +1,32 @@
+< THE SYMBOL TABLE >  Project2.exe_  --  emu8086 assembler version: 4.08 
+===================================================================================================
+Name                     	Offset    	Size      	Type      	Segment   
+===================================================================================================
+STACK                    	00000     	-5        	SEGMENT   	(ITSELF)  
+DATA                     	00010     	-5        	SEGMENT   	(ITSELF)  
+WELCOME                  	00000     	1         	VAR       	data      
+LINE                     	00025     	1         	VAR       	data      
+FILENAME                 	0004D     	1         	VAR       	data      
+FILENAMERESULT           	00057     	1         	VAR       	data      
+HANDLE                   	00062     	2         	VAR       	data      
+BUFFER                   	00064     	1         	VAR       	data      
+NLINE                    	00163     	1         	VAR       	data      
+LEN                      	00166     	2         	VAR       	data      
+LEN2                     	00168     	1         	VAR       	data      
+ACT                      	00169     	1         	VAR       	data      
+CODE                     	00027     	-5        	SEGMENT   	(ITSELF)  
+RETURN                   	00052     	-1        	LABEL     	code      
+LABEL                    	00063     	-1        	LABEL     	code      
+CHANGELETTER             	00073     	-1        	LABEL     	code      
+CHANGEFIRST              	00081     	-1        	LABEL     	code      
+MOVING1                  	0008C     	-1        	LABEL     	code      
+INCREMENT                	00095     	-1        	LABEL     	code      
+DECREMENT                	00098     	-1        	LABEL     	code      
+TO_LOWER                 	0009B     	-1        	LABEL     	code      
+LOWER                    	0009E     	-1        	LABEL     	code      
+INC_DI_LO                	000AF     	-1        	LABEL     	code      
+PRINT                    	000B6     	-1        	LABEL     	code      
+===================================================================================================
+[ 05/01/2013  --  5:17:05 PM ] 
+< END >
+ 

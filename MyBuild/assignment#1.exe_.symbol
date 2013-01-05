@@ -1,0 +1,20 @@
+< THE SYMBOL TABLE >  assignment#1.exe_  --  emu8086 assembler version: 4.08 
+===================================================================================================
+Name                     	Offset    	Size      	Type      	Segment   
+===================================================================================================
+STACK                    	00000     	-5        	SEGMENT   	(ITSELF)  
+DATA                     	00007     	-5        	SEGMENT   	(ITSELF)  
+NUM1                     	00000     	1         	VAR       	data      
+NUM2                     	00001     	1         	VAR       	data      
+MSG1                     	00002     	1         	VAR       	data      
+MSG2                     	00029     	1         	VAR       	data      
+MSG3                     	00051     	1         	VAR       	data      
+MSG4                     	0006A     	1         	VAR       	data      
+MSG                      	00089     	1         	VAR       	data      
+CODE                     	00010     	-5        	SEGMENT   	(ITSELF)  
+DIS4DIGIT                	00074     	-1        	NEAR      	code      
+ENTER2DIGIT              	000B2     	-1        	NEAR      	code      
+===================================================================================================
+[ 12/01/2012  --  6:38:37 AM ] 
+< END >
+ 

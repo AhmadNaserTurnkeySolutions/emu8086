@@ -1,0 +1,283 @@
+EMU8086 GENERATED LISTING. MACHINE CODE <- SOURCE.
+ 
+Project1.exe_ -- emu8086 assembler version: 4.08  
+ 
+[ 05/01/2013  --  5:16:03 PM ] 
+ 
+===================================================================================================
+[LINE]     LOC: MACHINE CODE                          SOURCE
+===================================================================================================
+ 
+[   1]        :                                       
+[   2]        :                                       ;Ahmad Hammad
+[   3]        :                                       ;1081443
+[   4]        :                                       		.model small
+[   5]        :                                       		.stack 256
+[   6]        :                                       		
+[   7]        :                                       		.data
+[   8]    0100: 41 68 6D 61 64 20 48 61 6D 6D 61 64   welcome db 'Ahmad Hammad : 1081443 - project #1',10,13,'$'
+                3A 20 31 30 38 31 34 34 33 20 2D 20 
+                70 72 6F 6A 65 63 74 20 23 31 0A 0D 
+                24                                  
+[   9]    0125: 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D   line db '-------------------------------------',10,13,'$'
+                2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 
+                2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 
+                2D 0A 0D 24                         
+[  10]    014D: 50 6C 65 61 73 65 20 65 6E 74 65 72   message1 db 'Please enter the first number in decimal (from 00 to 99): ','$'
+                20 74 68 65 20 66 69 72 73 74 20 6E 
+                75 6D 62 65 72 20 69 6E 20 64 65 63 
+                69 6D 61 6C 20 28 66 72 6F 6D 20 30 
+                30 20 74 6F 20 39 39 29 3A 20 24    
+[  11]    0188: 0A 0D 50 6C 65 61 65 20 65 6E 74 65   message2 db 10,13,'Pleae enter the second number in decimal (from 00 to 99): ','$'
+                72 20 74 68 65 20 73 65 63 6F 6E 64 
+                20 6E 75 6D 62 65 72 20 69 6E 20 64 
+                65 63 69 6D 61 6C 20 28 66 72 6F 6D 
+                20 30 30 20 74 6F 20 39 39 29 3A 20 
+                24                                  
+[  12]    01C5: 0A 0D 54 68 65 20 73 75 6D 20 69 73   result1   db 10,13,'The sum is ','$'
+                20 24                               
+[  13]    01D3: 0A 0D 54 68 65 20 70 72 6F 64 75 63   result2  db 10,13,'The product is ','$'
+                74 20 69 73 20 24                   
+[  14]    01E5: 00 00                                 num1        dw  ?
+[  15]    01E7: 00 00                                 num2        dw  ?
+[  16]        :                                       
+[  17]        :                                       
+[  18]        :                                       		.code
+[  19]    01F0:                                       start:
+[  20]    01F0: B8 10 00                              		mov ax, @data
+[  21]    01F3: 8E D8                                 		mov ds, ax
+[  22]        :                                       
+[  23]    01F5: B4 09                                 	mov ah,09h
+[  24]    01F7: BA 00 00                              	lea dx,welcome
+[  25]    01FA: BA 00 00                              	mov dx, offset welcome
+[  26]    01FD: CD 21                                 	int 21h
+[  27]        :                                       	
+[  28]    01FF: B4 09                                 	  	mov ah,09h
+[  29]    0201: BA 25 00                              	lea dx,line
+[  30]    0204: BA 25 00                              	mov dx, offset line
+[  31]    0207: CD 21                                 	int 21h
+[  32]        :                                       	
+[  33]    0209: B4 09                                 	mov ah,09h
+[  34]    020B: BA 4D 00                              	lea dx,message1
+[  35]    020E: BA 4D 00                              	mov dx, offset message1
+[  36]    0211: CD 21                                 	int 21h
+[  37]        :                                       
+[  38]        :                                       	
+[  39]    0213: E8 40 00                              		call    getn                ; read first number
+[  40]    0216: A3 E5 00                              		mov num1, ax
+[  41]        :                                       
+[  42]    0219: B4 09                                 	mov ah,09h
+[  43]    021B: BA 88 00                              	lea dx,message2
+[  44]    021E: BA 88 00                              	mov dx, offset message2
+[  45]    0221: CD 21                                 	int 21h
+[  46]        :                                       
+[  47]    0223: E8 30 00                              		call    getn                ; read second number
+[  48]    0226: A3 E7 00                              		mov num2, ax
+[  49]        :                                       		
+[  50]    0229: B4 09                                 	mov ah,09h
+[  51]    022B: BA C5 00                              	lea dx,result1
+[  52]    022E: BA C5 00                              	mov dx, offset result1 ; display result of sum
+[  53]    0231: CD 21                                 	int 21h
+[  54]        :                                       
+[  55]    0233: A1 E5 00                              		mov ax, num1            ; ax = num1
+[  56]    0236: 03 06 E7 00                           		add ax, num2            ; ax = ax + num2
+[  57]    023A: E8 62 00                              		call    putn            ; display sum
+[  58]        :                                       		
+[  59]    023D: B4 09                                 	mov ah,09h
+[  60]    023F: BA D3 00                              	lea dx,result2
+[  61]    0242: BA D3 00                              	mov dx, offset result2
+[  62]    0245: CD 21                                 	int 21h            ; display result of product
+[  63]        :                                       
+[  64]    0247: A1 E5 00                              		mov ax, num1      ; ax = num1
+[  65]    024A: F7 26 E7 00                           		mul num2          ; ax = ax * num2
+[  66]    024E: E8 4E 00                              		call    putn      ; display product
+[  67]        :                                       
+[  68]        :                                       
+[  69]        :                                       		
+[  70]    0251: B8 00 4C                              		mov ax, 4c00h
+[  71]    0254: CD 21                                 		int     21h             ; finished, back to the cmd
+[  72]        :                                       
+[  73]        :                                       
+[  74]        :                                       		
+[  75]        :                                       		
+[  76]        :                                       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
+[  77]        :                                       
+[  78]        :                                       
+[  79]    0256:                                       getn:
+[  80]        :                                       
+[  81]        :                                       
+[  82]    0256: 53                                    		push bx         ; save registers on stack
+[  83]    0257: 51                                    		push cx
+[  84]    0258: 52                                    		push dx
+[  85]        :                                       
+[  86]    0259: BA 01 00                              		mov  dx, 1      ; record sign, 1 for positive
+[  87]    025C: BB 00 00                              		mov  bx, 0      ; initialise digit to 0
+[  88]    025F: B9 00 00                              		mov  cx, 0      ; initialise number to 0
+[  89]        :                                       
+[  90]    0262: E8 7E 00                              		call getc       ; read first character
+[  91]    0265: 3C 2D                                 		cmp  al, '-'    ; is it negative
+[  92]    0267: 75 06                                 		jne  newline    ; if not goto newline
+[  93]    0269: BA FF FF                              		mov  dx, -1     ; else record sign
+[  94]        :                                       	
+[  95]    026C: E8 74 00                              		call getc       ; get next digit
+[  96]    026F:                                       newline:
+[  97]    026F: 52                                    		push dx         ; save sign on stack
+[  98]    0270: 3C 0D                                 		cmp  al, 13     ; (al == CR) ?
+[  99]    0272: 74 1D                                 		je   fin_read   ; if yes, goto fin_read
+[ 100]        :                                       				; otherwise
+[ 101]    0274: 2C 30                                 		sub  al, '0'    ; convert to digit
+[ 102]    0276: 8A C8                                 		mov  cl, al     ; cl = first digit
+[ 103]    0278: E8 68 00                              		call getc       ; get next character
+[ 104]        :                                       
+[ 105]    027B:                                       read_loop:
+[ 106]    027B: 3C 0D                                 		cmp  al, 13     ; if (al == CR)
+[ 107]    027D: 74 12                                 		je  fin_read    ; then goto fin_read
+[ 108]        :                                       
+[ 109]    027F: 2C 30                                 		  sub  al, '0'  ; otherwise, convert to digit
+[ 110]    0281: 8A D8                                 		  mov  bl, al   ; bl = digit
+[ 111]    0283: B8 0A 00                              		  mov  ax, 10   ; ax = 10
+[ 112]    0286: F7 E1                                 		  mul  cx       ; ax = cx * 10
+[ 113]    0288: 8B C8                                 		  mov  cx, ax   ; cx = ax   (n = n * 10)
+[ 114]    028A: 03 CB                                 		  add  cx, bx   ; cx = cx + digit   (n = n + digit)
+[ 115]    028C: E8 54 00                              		  call getc     ; read next digit
+[ 116]    028F: EB EA                                 		jmp read_loop
+[ 117]        :                                       
+[ 118]    0291:                                       fin_read:
+[ 119]    0291: 8B C1                                 		mov  ax, cx     ; number returned in ax
+[ 120]    0293: 5A                                    		pop  dx         ; retrieve sign from stack
+[ 121]    0294: 83 FA 01                              		cmp  dx, 1      ; ax = ax * dx
+[ 122]    0297: 74 02                                 		je   fin_getn
+[ 123]    0299: F7 D8                                 		neg  ax         ; ax = -ax
+[ 124]    029B:                                       fin_getn:
+[ 125]    029B: 5A                                    		pop  dx
+[ 126]    029C: 59                                    		pop  cx
+[ 127]    029D: 5B                                    		pop  bx
+[ 128]    029E: C3                                    		ret
+[ 129]        :                                       
+[ 130]        :                                       
+[ 131]    029F:                                       putn:                                   ; display number in ax
+[ 132]        :                                       		; ax contains number
+[ 133]        :                                       		; dx contains remainder
+[ 134]        :                                       		; cx contains 10 for division
+[ 135]        :                                       
+[ 136]    029F: 53                                    	push    bx
+[ 137]    02A0: 51                                    	push    cx
+[ 138]    02A1: 52                                    	push    dx
+[ 139]        :                                       	
+[ 140]    02A2: BA 00 00                              	mov dx, 0                       ; dx = 0
+[ 141]    02A5: 52                                    	push dx                         ; push 0 as sentinel
+[ 142]    02A6: B9 0A 00                              	mov cx, 10                      ; cx = 10
+[ 143]        :                                       	
+[ 144]    02A9: 3D 00 00                              	cmp ax, 0
+[ 145]    02AC: 7D 09                                 	jge calc_digits                 ; number is negative
+[ 146]    02AE: F7 D8                                 	neg ax                          ; ax = -ax; ax is now positive
+[ 147]    02B0: 50                                    	push  ax                        ; save ax
+[ 148]    02B1: B0 2D                                 	mov al, '-'                     ; display - sign
+[ 149]    02B3: E8 1E 00                              	call putc
+[ 150]    02B6: 58                                    	pop ax                          ; restore ax
+[ 151]        :                                       
+[ 152]    02B7:                                       calc_digits:
+[ 153]    02B7: F7 F1                                 	div cx                          ; dx:ax = ax / cx
+[ 154]        :                                       					; ax = result, dx = remainder
+[ 155]    02B9: 83 C2 30                              	add dx, '0'                     ; convert dx to digit
+[ 156]    02BC: 52                                    	push dx                         ; save digit on stack
+[ 157]    02BD: BA 00 00                              	mov dx, 0                       ; dx = 0
+[ 158]    02C0: 3D 00 00                              	cmp ax, 0                       ; finished ?
+[ 159]    02C3: 75 F2                                 	jne calc_digits                 ; no, repeat process
+[ 160]        :                                       					; all digits now on stack, display
+[ 161]        :                                       					; them in reverse
+[ 162]        :                                       
+[ 163]    02C5:                                       disp_loop:
+[ 164]    02C5: 58                                    	pop ax                          ; get last digit from stack
+[ 165]    02C6: 3D 00 00                              	cmp ax, 0                       ; is it sentinel
+[ 166]    02C9: 74 05                                 	je  end_disp_loop               ; if yes, we are finished
+[ 167]    02CB: E8 06 00                              	call putc                       ; otherwise display digit
+[ 168]    02CE: EB F5                                 	jmp disp_loop
+[ 169]    02D0:                                       end_disp_loop:
+[ 170]        :                                       
+[ 171]    02D0: 5A                                    	pop dx                          ; restore registers
+[ 172]    02D1: 59                                    	pop cx
+[ 173]    02D2: 5B                                    	pop bx
+[ 174]        :                                       
+[ 175]    02D3: C3                                    	ret
+[ 176]        :                                       
+[ 177]        :                                       
+[ 178]    02D4:                                       putc:               ; display character in al
+[ 179]    02D4: 50                                    	push    ax  ; save ax
+[ 180]    02D5: 53                                    	push    bx  ; save bx
+[ 181]    02D6: 51                                    	push    cx  ; save cx
+[ 182]    02D7: 52                                    	push    dx  ; save dx
+[ 183]        :                                       
+[ 184]    02D8: 8A D0                                 	mov dl, al
+[ 185]    02DA: B4 02                                 	mov ah, 2h
+[ 186]    02DC: CD 21                                 	int 21h
+[ 187]        :                                       
+[ 188]    02DE: 5A                                    	pop dx  ; restore dx
+[ 189]    02DF: 59                                    	pop cx  ; restore cx
+[ 190]    02E0: 5B                                    	pop bx  ; restore bx
+[ 191]    02E1: 58                                    	pop ax  ; restore ax
+[ 192]        :                                       
+[ 193]    02E2: C3                                    	ret
+[ 194]        :                                       
+[ 195]    02E3:                                       getc:               ; read character into al
+[ 196]    02E3: 53                                    	push    bx  ; save bx
+[ 197]    02E4: 51                                    	push    cx  ; save cx
+[ 198]    02E5: 52                                    	push    dx  ; save dx
+[ 199]        :                                       
+[ 200]    02E6: B4 01                                 	mov ah, 1h
+[ 201]    02E8: CD 21                                 	int 21h
+[ 202]        :                                       
+[ 203]    02EA: 5A                                    	pop dx  ; restore dx
+[ 204]    02EB: 59                                    	pop cx  ; restore cx
+[ 205]    02EC: 5B                                    	pop bx  ; restore bx
+[ 206]        :                                       
+[ 207]    02ED: C3                                    	ret
+[ 208]        :                                       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
+[ 209]        :                                       	end start
+[ 210]        :                                       
+[ 211]        :                                       
+ 
+===================================================================================================
+ 
+EXE HEADER - bytes from 0000 to 01FF inclusive.
+
+0000: 4D      -   exe signature (M)
+0001: 5A      -   exe signature (Z)
+0002: EE      -   bytes on last page (l.byte)
+0003: 00      -   bytes on last page (h.byte)
+0004: 03      -   512 byte pages in file (l.byte)
+0005: 00      -   512 byte pages in file (h.byte)
+0006: 01      -   relocations (l.byte)
+0007: 00      -   relocations (h.byte)
+0008: 20      -   paragraphs in header (l.byte)
+0009: 00      -   paragraphs in header (h.byte)
+000A: 00      -   minimum memory (l.byte)
+000B: 00      -   minimum memory (h.byte)
+000C: FF      -   maximum memory (l.byte)
+000D: FF      -   maximum memory (h.byte)
+000E: 00      -   SS - stack segment (l.byte)
+000F: 00      -   SS - stack segment (h.byte)
+0010: 00      -   SP - stack pointer (l.byte)
+0011: 01      -   SP - stack pointer (h.byte)
+0012: 03      -   check sum (l.byte)
+0013: 85      -   check sum (h.byte)
+0014: 00      -   IP - instruction pointer (l.byte)
+0015: 00      -   IP - instruction pointer (h.byte)
+0016: 1F      -   CS - code segment (l.byte)
+0017: 00      -   CS - code segment (h.byte)
+0018: 1E      -   relocation table adress (l.byte)
+0019: 00      -   relocation table adress (h.byte)
+001A: 00      -   overlay number (l.byte)
+001B: 00      -   overlay number (h.byte)
+001C: 01      -   signature (l.byte)
+001D: 00      -   signature (h.byte)
+001E: 01      -   relocation table - offset inside segment (l.byte)
+001F: 00      -   relocation table - offset inside segment (h.byte)
+0020: 1F      -   relocation table - segment anchor (l.byte)
+0021: 00      -   relocation table - segment anchor (h.byte)
+0022 to 01FF  -   reserved relocation area  (00) 
+
+
+
+
+===================================================================================================

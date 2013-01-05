@@ -1,0 +1,292 @@
+EMU8086 GENERATED LISTING. MACHINE CODE <- SOURCE.
+ 
+Project2.exe_ -- emu8086 assembler version: 4.08  
+ 
+[ 05/01/2013  --  5:17:05 PM ] 
+ 
+===================================================================================================
+[LINE]     LOC: MACHINE CODE                          SOURCE
+===================================================================================================
+ 
+[   1]        :                                       .MODEL small
+[   2]        :                                       .STACK 256
+[   3]        :                                       .DATA
+[   4]        :                                       ;Ahmad Hammad 1081443
+[   5]    0100: 41 68 6D 61 64 20 48 61 6D 6D 61 64   welcome db 'Ahmad Hammad : 1081443 - project #2',10,13,'$'
+                3A 20 31 30 38 31 34 34 33 20 2D 20 
+                70 72 6F 6A 65 63 74 20 23 32 0A 0D 
+                24                                  
+[   6]    0125: 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D   line db '-------------------------------------',10,13,'$'
+                2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 
+                2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 
+                2D 0A 0D 24                         
+[   7]    014D: 69 6E 70 75 74 2E 74 78 74 00         		filename db 'input.txt',0	
+[   8]    0157: 6F 75 74 70 75 74 2E 74 78 74 00      		filenameresult db 'output.txt',0	
+[   9]        :                                       	
+[  10]    0162: 00 00                                 		handle dw 0   ; will be the file handle. the number that DOS assigns to the open file.
+[  11]    0164: 24 24 24 24 24 24 24 24 24 24 24 24   		buffer db 255 DUP ('$')   ; make a plain buffer (not a strange input one like before).
+                24 24 24 24 24 24 24 24 24 24 24 24 
+                24 24 24 24 24 24 24 24 24 24 24 24 
+                24 24 24 24 24 24 24 24 24 24 24 24 
+                24 24 24 24 24 24 24 24 24 24 24 24 
+                24 24 24 24 24 24 24 24 24 24 24 24 
+                24 24 24 24 24 24 24 24 24 24 24 24 
+                24 24 24 24 24 24 24 24 24 24 24 24 
+                24 24 24 24 24 24 24 24 24 24 24 24 
+                24 24 24 24 24 24 24 24 24 24 24 24 
+                24 24 24 24 24 24 24 24 24 24 24 24 
+                24 24 24 24 24 24 24 24 24 24 24 24 
+                24 24 24 24 24 24 24 24 24 24 24 24 
+                24 24 24 24 24 24 24 24 24 24 24 24 
+                24 24 24 24 24 24 24 24 24 24 24 24 
+                24 24 24 24 24 24 24 24 24 24 24 24 
+                24 24 24 24 24 24 24 24 24 24 24 24 
+                24 24 24 24 24 24 24 24 24 24 24 24 
+                24 24 24 24 24 24 24 24 24 24 24 24 
+                24 24 24 24 24 24 24 24 24 24 24 24 
+                24 24 24 24 24 24 24 24 24 24 24 24 
+                24 24 24                            
+[  12]        :                                       
+[  13]    0263: 0D 0A 24                              NLine db 13,10,'$'
+[  14]    0266: 00 00                                 		len dw 0
+[  15]    0268: FF                                    		len2 db 255   ; we need an input buffer this time.
+[  16]        :                                       		
+[  17]        :                                       		
+[  18]        :                                       	
+[  19]    0269: 00                                    		act db 0
+[  20]        :                                       .CODE
+[  21]    0270: B8 10 00                              MOV AX,@DATA
+[  22]    0273: 8E D8                                 MOV DS,AX
+[  23]        :                                       
+[  24]        :                                       
+[  25]        :                                       
+[  26]    0275: B4 09                                 mov ah,09h
+[  27]    0277: BA 00 00                              	lea dx,welcome
+[  28]    027A: BA 00 00                              	mov dx, offset welcome
+[  29]    027D: CD 21                                 	int 21h
+[  30]        :                                       	
+[  31]    027F: B4 09                                 	  	mov ah,09h
+[  32]    0281: BA 25 00                              	lea dx,line
+[  33]    0284: BA 25 00                              	mov dx, offset line
+[  34]    0287: CD 21                                 	int 21h
+[  35]        :                                       
+[  36]        :                                       
+[  37]    0289: B4 3D                                 		mov ah,3Dh   ; 3Dh of DOS Services opens a file.
+[  38]    028B: B0 00                                 		mov al,0   ; 0 - for reading. 1 - for writing. 2 - both
+[  39]    028D: BA 4D 00                              		mov dx,offset filename  ; make a pointer to the filename
+[  40]    0290: CD 21                                 		int 21h   ; call DOS
+[  41]    0292: A3 62 00                              		mov handle,ax   ; Function 3Dh returns the file handle in AX, here we save it for later use.
+[  42]        :                                       
+[  43]        :                                       	;'DOS Service Function number 3Fh reads from a file.
+[  44]        :                                       
+[  45]    0295: B4 3F                                 		mov ah,3Fh
+[  46]    0297: B9 1B 00                              		mov cx,27   ; I will assume ELMO.TXT has atleast 4 bytes in it. CX is how many bytes to read.
+[  47]    029A: BA 64 00                              		mov dx,offset buffer  ; DOS Functions like DX having pointers for some reason.
+[  48]    029D: 8B 1E 62 00                           		mov bx,handle    ; BX needs the file handle.
+[  49]    02A1: CD 21                                 		int 21h   ; call DOS
+[  50]        :                                       
+[  51]        :                                       	;Here we will put a $ after 4 bytes in the buffer and print the data read:
+[  52]        :                                       
+[  53]    02A3: BA 64 00                              		mov dx,offset buffer
+[  54]    02A6: 03 D0                                 		add dx,ax    ; Function 3Fh returns the actual amount of bytes read in AX (should be 4 if
+[  55]        :                                       				; nothing went wrong.
+[  56]    02A8: 8B DA                                 		mov bx,dx
+[  57]    02AA: C6 07 24                              		mov byte [bx],'$'   ; byte pointer so we don't mess with the whole word (a word is 16bits).
+[  58]        :                                       
+[  59]    02AD: B1 14                                 mov cl,20
+[  60]    02AF: B3 01                                 mov bl,1
+[  61]    02B1: BA 64 00                              		        	mov dx,offset buffer    ; put the pointer back in DX.
+[  62]    02B4: B4 09                                 		mov ah,9
+[  63]    02B6: CD 21                                 		int 21h    ; call DOS Function 9 (Print String).
+[  64]    02B8: BA 63 01                              	mov dx,offset NLine   ; put the pointer back in DX.
+[  65]    02BB: B4 09                                 		mov ah,9
+[  66]    02BD: CD 21                                 		int 21h    ; call DOS Function 9 (Print String).
+[  67]        :                                       
+[  68]        :                                       
+[  69]    02BF: E8 49 00                              call to_lower
+[  70]    02C2:                                       return:
+[  71]        :                                       ; call Print
+[  72]    02C2: BE 64 00                              lea si,buffer
+[  73]        :                                       
+[  74]        :                                       
+[  75]    02C5: BA 64 00                              		        	mov dx,offset buffer    ; put the pointer back in DX.
+[  76]    02C8: B4 09                                 		mov ah,9
+[  77]    02CA: CD 21                                 		int 21h    ; call DOS Function 9 (Print String).
+[  78]    02CC: BA 63 01                              	mov dx,offset NLine   ; put the pointer back in DX.
+[  79]    02CF: B4 09                                 		mov ah,9
+[  80]    02D1: CD 21                                 		int 21h    ; call DOS Function 9 (Print String).
+[  81]        :                                       ;;;;;;;;;;;;;;;;;;;;;;;;++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+[  82]    02D3:                                       label:
+[  83]    02D3: 8A 04                                 mov al,[si]
+[  84]        :                                       ;mov dl,al
+[  85]        :                                       ;mov ah,2h
+[  86]        :                                       ; int 21h
+[  87]    02D5: E8 24 00                              call moving1
+[  88]    02D8: 3C 61                                 cmp al,'a'
+[  89]    02DA: 7D 07                                 jge changeLetter
+[  90]        :                                       ;    cmp al,'A'
+[  91]        :                                       ; jge changeLetter1step
+[  92]    02DC: 46                                    inc si
+[  93]    02DD: FE C9                                 dec cl
+[  94]        :                                       
+[  95]        :                                       
+[  96]        :                                       ; mov bl,0
+[  97]    02DF: 75 F2                                 jnz label
+[  98]        :                                       ;;;;;;;;;;;;;;;;;;;;;;;;++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+[  99]    02E1: 74 43                                 jz Print
+[ 100]        :                                       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[ 101]    02E3:                                       changeLetter:
+[ 102]        :                                       
+[ 103]    02E3: 80 FB 01                              cmp bl,1
+[ 104]    02E6: 74 09                                 je changefirst
+[ 105]    02E8: 46                                    inc si
+[ 106]        :                                       
+[ 107]    02E9: FE C9                                 dec cl
+[ 108]        :                                       
+[ 109]    02EB: 75 E6                                 jnz label
+[ 110]        :                                       ;;;;;;;;;;;;;;;;
+[ 111]    02ED: 74 37                                 jz Print; dont go down
+[ 112]        :                                       		
+[ 113]    02EF: 75 E2                                 		          jnz label
+[ 114]    02F1:                                       		   changefirst:
+[ 115]        :                                       		   ;inc si
+[ 116]        :                                       		
+[ 117]    02F1: 8A 04                                 		   mov al,[si]
+[ 118]    02F3: 2C 20                                 		   sub al,32d
+[ 119]    02F5: 88 04                                 		   mov [si],al
+[ 120]    02F7: B3 00                                 		   mov bl,0
+[ 121]        :                                       
+[ 122]    02F9: 46                                    		    inc si
+[ 123]        :                                       ; dec cl
+[ 124]    02FA: 75 D7                                 		   jnz label
+[ 125]        :                                       		     ;ret
+[ 126]        :                                       		     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[ 127]        :                                       		
+[ 128]        :                                       		
+[ 129]        :                                       	
+[ 130]        :                                       		
+[ 131]    02FC:                                       moving1:
+[ 132]    02FC: 3C 20                                 cmp al,' '
+[ 133]    02FE: 74 05                                 je increment
+[ 134]    0300: 3C 5A                                 cmp al,'Z'
+[ 135]    0302: 7E 04                                 jle decrement
+[ 136]    0304: C3                                    ret
+[ 137]    0305:                                       increment:
+[ 138]    0305: B3 01                                 mov bl,1
+[ 139]    0307: C3                                    ret
+[ 140]        :                                       
+[ 141]    0308:                                       decrement:
+[ 142]    0308: B3 00                                 mov bl,0
+[ 143]    030A: C3                                    ret
+[ 144]        :                                       		
+[ 145]        :                                       		
+[ 146]        :                                       		
+[ 147]        :                                       
+[ 148]        :                                       
+[ 149]    030B:                                       to_lower:
+[ 150]    030B: BE 64 00                              lea si,buffer
+[ 151]        :                                       
+[ 152]    030E:                                       lower:
+[ 153]    030E: 8A 04                                 mov al,[si]
+[ 154]    0310: 3C 60                                 cmp al,60h
+[ 155]    0312: 7F 0B                                 jg inc_di_lo
+[ 156]    0314: 3C 40                                 cmp al,40h
+[ 157]    0316: 7C 07                                 jl inc_di_lo
+[ 158]    0318: 04 20                                 add al,20h
+[ 159]    031A: 88 04                                 mov [si],al
+[ 160]    031C: 46                                    inc si
+[ 161]    031D: EB EF                                 jmp lower
+[ 162]    031F:                                       inc_di_lo:
+[ 163]    031F: 46                                    inc si
+[ 164]    0320: 3C 24                                 cmp al,'$'
+[ 165]    0322: 74 9E                                 je return
+[ 166]    0324: EB E8                                 jmp lower
+[ 167]        :                                       
+[ 168]        :                                       
+[ 169]        :                                       
+[ 170]    0326:                                       Print:
+[ 171]        :                                       
+[ 172]    0326: BA 64 00                              		mov dx,offset buffer  ; put the pointer back in DX.
+[ 173]    0329: B4 09                                 		mov ah,9
+[ 174]    032B: CD 21                                 		int 21h    ; call DOS Function 9 (Print String).
+[ 175]        :                                       		
+[ 176]        :                                       		
+[ 177]        :                                       		
+[ 178]        :                                       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[ 179]    032D: BA 57 00                              mov dx,offset filenameresult ; put offset of filename in dx
+[ 180]    0330: B9 00 00                              mov cx,0 ; clear cx - make ordinary file
+[ 181]    0333: B4 3C                                 mov ah,3Ch ; function 3Ch - create a file
+[ 182]    0335: CD 21                                 int 21h ; call DOS service
+[ 183]        :                                       ;mov dx,offset  ; put offset of filename in dx
+[ 184]    0337: B4 3D                                 		mov ah,3Dh   ; 3Dh of DOS Services opens a file.
+[ 185]    0339: B0 01                                 		mov al,1   ; 0 - for reading. 1 - for writing. 2 - both
+[ 186]    033B: BA 57 00                              		mov dx,offset filenameresult  ; make a pointer to the filename
+[ 187]    033E: CD 21                                 		int 21h   ; call DOS
+[ 188]    0340: A3 62 00                              		mov handle,ax   ; Function 3Dh returns the file handle in AX, here we save it for later use.
+[ 189]        :                                       
+[ 190]        :                                       	;Get input:
+[ 191]        :                                       
+[ 192]        :                                       	;	mov ah,0Ah
+[ 193]        :                                       		;mov dx,offset buffer
+[ 194]        :                                       		;int 21h
+[ 195]        :                                       
+[ 196]        :                                       ;	DOS Service Function number 40h writes to a file.
+[ 197]        :                                       
+[ 198]    0343: B4 40                                 		mov ah,40h
+[ 199]    0345: BB FF 00                              		mov bx,255 ; pointer to number of bytes read from user.
+[ 200]    0348: B1 1B                                 		mov cl,27  ; get the contents of the byte at the pointer.
+[ 201]        :                                       		; note that even though CX takes the length, CL physically IS the low byte of CX.
+[ 202]    034A: BA 64 00                              		mov dx,offset buffer  ; pointer to the actual data in DX.
+[ 203]    034D: 8B 1E 62 00                           		mov bx,handle    ; BX needs the file handle.
+[ 204]    0351: CD 21                                 		int 21h   ; call DOS
+[ 205]        :                                       		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[ 206]    0353: B4 4C                                 		mov ah,4Ch
+[ 207]    0355: CD 21                                 		int 21h      ; Function 4Ch (Exit Program)
+[ 208]        :                                       
+[ 209]        :                                       		end
+[ 210]        :                                       
+ 
+===================================================================================================
+ 
+EXE HEADER - bytes from 0000 to 01FF inclusive.
+
+0000: 4D      -   exe signature (M)
+0001: 5A      -   exe signature (Z)
+0002: 57      -   bytes on last page (l.byte)
+0003: 01      -   bytes on last page (h.byte)
+0004: 03      -   512 byte pages in file (l.byte)
+0005: 00      -   512 byte pages in file (h.byte)
+0006: 01      -   relocations (l.byte)
+0007: 00      -   relocations (h.byte)
+0008: 20      -   paragraphs in header (l.byte)
+0009: 00      -   paragraphs in header (h.byte)
+000A: 00      -   minimum memory (l.byte)
+000B: 00      -   minimum memory (h.byte)
+000C: FF      -   maximum memory (l.byte)
+000D: FF      -   maximum memory (h.byte)
+000E: 00      -   SS - stack segment (l.byte)
+000F: 00      -   SS - stack segment (h.byte)
+0010: 00      -   SP - stack pointer (l.byte)
+0011: 01      -   SP - stack pointer (h.byte)
+0012: 95      -   check sum (l.byte)
+0013: C3      -   check sum (h.byte)
+0014: 00      -   IP - instruction pointer (l.byte)
+0015: 00      -   IP - instruction pointer (h.byte)
+0016: 27      -   CS - code segment (l.byte)
+0017: 00      -   CS - code segment (h.byte)
+0018: 1E      -   relocation table adress (l.byte)
+0019: 00      -   relocation table adress (h.byte)
+001A: 00      -   overlay number (l.byte)
+001B: 00      -   overlay number (h.byte)
+001C: 01      -   signature (l.byte)
+001D: 00      -   signature (h.byte)
+001E: 01      -   relocation table - offset inside segment (l.byte)
+001F: 00      -   relocation table - offset inside segment (h.byte)
+0020: 27      -   relocation table - segment anchor (l.byte)
+0021: 00      -   relocation table - segment anchor (h.byte)
+0022 to 01FF  -   reserved relocation area  (00) 
+
+
+
+
+===================================================================================================

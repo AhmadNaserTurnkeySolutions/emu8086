@@ -1,0 +1,192 @@
+EMU8086 GENERATED LISTING. MACHINE CODE <- SOURCE.
+ 
+assignment#1.exe_ -- emu8086 assembler version: 4.08  
+ 
+[ 12/01/2012  --  6:38:37 AM ] 
+ 
+===================================================================================================
+[LINE]     LOC: MACHINE CODE                          SOURCE
+===================================================================================================
+ 
+[   1]        :                                       .MODEL small
+[   2]        :                                       .STACK 100
+[   3]        :                                       .DATA
+[   4]    0070: 00                                    num1 db 0
+[   5]    0071: 00                                    num2 db 0
+[   6]    0072: 70 6C 65 61 73 65 20 65 6E 74 65 72   msg1 db "please enter the first num(in decimal)",'$'
+                20 74 68 65 20 66 69 72 73 74 20 6E 
+                75 6D 28 69 6E 20 64 65 63 69 6D 61 
+                6C 29 24                            
+[   7]    0099: 70 6C 65 61 73 65 20 65 6E 74 65 72   msg2 db "please enter the second num(in decimal)",'$'
+                20 74 68 65 20 73 65 63 6F 6E 64 20 
+                6E 75 6D 28 69 6E 20 64 65 63 69 6D 
+                61 6C 29 24                         
+[   8]    00C1: 54 68 65 20 72 65 73 75 6C 74 20 6F   msg3 db "The result of addition =",'$'
+                66 20 61 64 64 69 74 69 6F 6E 20 3D 
+                24                                  
+[   9]    00DA: 54 68 65 20 72 65 73 75 6C 74 20 6F   msg4 db "The result of multiplication =",'$'
+                66 20 6D 75 6C 74 69 70 6C 69 63 61 
+                74 69 6F 6E 20 3D 24                
+[  10]    00F9: 0A 0D 24                              msg db 10,13,'$'
+[  11]        :                                       .CODE
+[  12]    0100: B8 07 00                              MOV AX,@DATA
+[  13]    0103: 8E D8                                 MOV DS,AX
+[  14]        :                                       
+[  15]        :                                       
+[  16]    0105: BA 02 00                              mov dx,offset msg1
+[  17]    0108: B4 09                                 mov ah,9
+[  18]    010A: CD 21                                 int 21h
+[  19]    010C: BA 89 00                              mov dx,offset msg
+[  20]    010F: B4 09                                 mov ah,9
+[  21]    0111: CD 21                                 int 21h
+[  22]        :                                       
+[  23]    0113: E8 9C 00                              call enter2digit
+[  24]    0116: 88 0E 00 00                           mov [num1],cl
+[  25]    011A: BA 89 00                              mov dx,offset msg
+[  26]    011D: B4 09                                 mov ah,9
+[  27]    011F: CD 21                                 int 21h
+[  28]        :                                       
+[  29]    0121: BA 29 00                              mov dx,offset msg2
+[  30]    0124: B4 09                                 mov ah,9
+[  31]    0126: CD 21                                 int 21h
+[  32]    0128: BA 89 00                              mov dx,offset msg
+[  33]    012B: B4 09                                 mov ah,9
+[  34]    012D: CD 21                                 int 21h
+[  35]        :                                       
+[  36]    012F: E8 80 00                              call enter2digit
+[  37]    0132: 88 0E 01 00                           mov [num2],cl
+[  38]    0136: BA 89 00                              mov dx,offset msg
+[  39]    0139: B4 09                                 mov ah,9
+[  40]    013B: CD 21                                 int 21h
+[  41]        :                                       
+[  42]        :                                       
+[  43]    013D: BA 51 00                              mov dx,offset msg3
+[  44]    0140: B4 09                                 mov ah,9
+[  45]    0142: CD 21                                 int 21h
+[  46]        :                                       
+[  47]    0144: A0 00 00                              mov al,[num1]
+[  48]    0147: 02 06 01 00                           add al,[num2]
+[  49]    014B: B4 00                                 mov ah,0
+[  50]    014D: BA 00 00                              mov dx ,0
+[  51]    0150: E8 21 00                              call dis4digit
+[  52]    0153: BA 89 00                              mov dx,offset msg
+[  53]    0156: B4 09                                 mov ah,9
+[  54]    0158: CD 21                                 int 21h
+[  55]        :                                       
+[  56]    015A: BA 6A 00                              mov dx,offset msg4
+[  57]    015D: B4 09                                 mov ah,9
+[  58]    015F: CD 21                                 int 21h
+[  59]        :                                       
+[  60]        :                                       
+[  61]    0161: A0 00 00                              mov al,[num1]
+[  62]    0164: 8A 0E 01 00                           mov cl,[num2]
+[  63]    0168: F6 E1                                 mul cl
+[  64]    016A: BA 00 00                              mov dx ,0
+[  65]    016D: E8 04 00                              call dis4digit
+[  66]        :                                       
+[  67]        :                                       
+[  68]    0170: B4 4C                                 mov ah,4ch
+[  69]    0172: CD 21                                 int 21h
+[  70]        :                                       
+[  71]        :                                       
+[  72]        :                                       
+[  73]        :                                       
+[  74]    0174:                                       dis4digit proc
+[  75]        :                                       
+[  76]    0174: B9 E8 03                              mov cx,1000
+[  77]    0177: F7 F1                                 div cx
+[  78]    0179: 8B CA                                 mov cx,dx
+[  79]    017B: 8A D0                                 mov dl,al
+[  80]    017D: 80 C2 30                              add dl,030h
+[  81]    0180: B4 02                                 Mov Ah,2
+[  82]    0182: CD 21                                 INT 21h
+[  83]    0184: 8B C1                                 mov ax,cx
+[  84]    0186: B1 64                                 mov cl,100
+[  85]    0188: F6 F1                                 div cl
+[  86]    018A: 8A EC                                 mov ch,ah
+[  87]    018C: 8A D0                                 mov dl,al
+[  88]    018E: 80 C2 30                              add dl,030h
+[  89]    0191: B4 02                                 Mov Ah,2
+[  90]    0193: CD 21                                 INT 21h
+[  91]    0195: 8A C5                                 mov al,ch
+[  92]    0197: B4 00                                 mov ah,0
+[  93]    0199: B1 0A                                 mov cl,10
+[  94]    019B: F6 F1                                 div cl
+[  95]    019D: 8A EC                                 mov ch,ah
+[  96]    019F: 8A D0                                 mov dl,al
+[  97]    01A1: 80 C2 30                              add dl,030h
+[  98]    01A4: B4 02                                 Mov Ah,2
+[  99]    01A6: CD 21                                 INT 21h
+[ 100]    01A8: 8A D5                                 mov dl,ch
+[ 101]    01AA: 80 C2 30                              add dl,030h
+[ 102]    01AD: B4 02                                 Mov Ah,2
+[ 103]    01AF: CD 21                                 INT 21h
+[ 104]    01B1: C3                                    ret
+[ 105]        :                                       dis4digit endp
+[ 106]        :                                       
+[ 107]        :                                       
+[ 108]    01B2:                                       enter2digit proc
+[ 109]        :                                       
+[ 110]    01B2: B4 01                                 mov ah,1
+[ 111]    01B4: CD 21                                 int 21h
+[ 112]    01B6: 2C 30                                 sub al,48
+[ 113]    01B8: B1 0A                                 mov cl,10
+[ 114]    01BA: F6 E1                                 mul cl
+[ 115]    01BC: 8B C8                                 mov cx,ax
+[ 116]    01BE: B4 01                                 mov ah,1
+[ 117]    01C0: CD 21                                 int 21h
+[ 118]    01C2: 2C 30                                 sub al,48
+[ 119]    01C4: B4 00                                 mov ah,0
+[ 120]    01C6: 03 C8                                 add cx,ax
+[ 121]    01C8: C3                                    ret
+[ 122]        :                                       
+[ 123]        :                                       enter2digit endp
+[ 124]        :                                       
+[ 125]        :                                       end
+[ 126]        :                                       
+[ 127]        :                                       
+ 
+===================================================================================================
+ 
+EXE HEADER - bytes from 0000 to 01FF inclusive.
+
+0000: 4D      -   exe signature (M)
+0001: 5A      -   exe signature (Z)
+0002: C9      -   bytes on last page (l.byte)
+0003: 01      -   bytes on last page (h.byte)
+0004: 02      -   512 byte pages in file (l.byte)
+0005: 00      -   512 byte pages in file (h.byte)
+0006: 01      -   relocations (l.byte)
+0007: 00      -   relocations (h.byte)
+0008: 20      -   paragraphs in header (l.byte)
+0009: 00      -   paragraphs in header (h.byte)
+000A: 00      -   minimum memory (l.byte)
+000B: 00      -   minimum memory (h.byte)
+000C: FF      -   maximum memory (l.byte)
+000D: FF      -   maximum memory (h.byte)
+000E: 00      -   SS - stack segment (l.byte)
+000F: 00      -   SS - stack segment (h.byte)
+0010: 64      -   SP - stack pointer (l.byte)
+0011: 00      -   SP - stack pointer (h.byte)
+0012: 1C      -   check sum (l.byte)
+0013: 2F      -   check sum (h.byte)
+0014: 00      -   IP - instruction pointer (l.byte)
+0015: 00      -   IP - instruction pointer (h.byte)
+0016: 10      -   CS - code segment (l.byte)
+0017: 00      -   CS - code segment (h.byte)
+0018: 1E      -   relocation table adress (l.byte)
+0019: 00      -   relocation table adress (h.byte)
+001A: 00      -   overlay number (l.byte)
+001B: 00      -   overlay number (h.byte)
+001C: 01      -   signature (l.byte)
+001D: 00      -   signature (h.byte)
+001E: 01      -   relocation table - offset inside segment (l.byte)
+001F: 00      -   relocation table - offset inside segment (h.byte)
+0020: 10      -   relocation table - segment anchor (l.byte)
+0021: 00      -   relocation table - segment anchor (h.byte)
+0022 to 01FF  -   reserved relocation area  (00) 
+
+
+
+
+===================================================================================================
